@@ -5,7 +5,7 @@ from modelos.provincia import Provincia
 from servicios.cliente_http import ClienteHTTP
 
 
-class GeorefService(ClienteHTTP):  # HERENCIA
+class GeorefService(ClienteHTTP): 
 
     URL = "https://apis.datos.gob.ar/georef/api"
 

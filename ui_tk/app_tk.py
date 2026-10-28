@@ -1,6 +1,3 @@
-"""Interfaz Tkinter. La consulta HTTP corre en un hilo aparte 
-para que la ventana no se congele."""
-
 import queue
 import threading
 import tkinter as tk
@@ -18,14 +15,13 @@ class AppTk(tk.Tk):
         self.geometry("640x480")
         self.servicio = GeorefService()
         self.provincias = []
-        self.cola = queue.Queue()  # hilo -> interfaz
+        self.cola = queue.Queue()
         self._crear_widgets()
         self._en_segundo_plano(
             self.servicio.provincias, self._mostrar_provincias
         )
         self.after(100, self._revisar_cola)
 
-    # ---------- construcción de la interfaz ---------
     def _crear_widgets(self):
         barra = ttk.Frame(self, padding=8)
         barra.pack(fill="x")
@@ -45,7 +41,6 @@ class AppTk(tk.Tk):
         self.estado = tk.StringVar(value="Cargando provincias...")
         ttk.Label(self, textvariable=self.estado, padding=6).pack(fill="x")
 
-    # ---------- hilos ---------
     def _en_segundo_plano(self, funcion, al_terminar, *args):
         def trabajo():
             try:
@@ -56,7 +51,6 @@ class AppTk(tk.Tk):
         threading.Thread(target=trabajo, daemon=True).start()
 
     def _revisar_cola(self):
-        # Solo el hilo principal toca los widgets
         try:
             while True:
                 callback, resultado, error = self.cola.get_nowait()
@@ -70,7 +64,7 @@ class AppTk(tk.Tk):
             pass
         self.after(100, self._revisar_cola)
 
-    # ---------- acciones ---------
+
     def _mostrar_provincias(self, provincias):
         self.provincias = provincias
         self.combo["values"] = [p.nombre for p in provincias]

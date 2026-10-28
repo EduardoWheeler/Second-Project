@@ -1,5 +1,3 @@
-"""Clase base reutilizable para cualquier API REST que devuelva JSON."""
-
 import requests
 
 
@@ -12,14 +10,14 @@ class ClienteHTTP:
     def __init__(self, url_base: str, timeout: int = 10):
         self.url_base = url_base.rstrip("/")
         self.timeout = timeout
-        self._sesion = requests.Session()  # reutiliza la conexión TCP
+        self._sesion = requests.Session() 
         self._sesion.headers["Accept"] = "application/json"
 
     def get(self, recurso: str, params: dict | None = None) -> dict:
         url = f"{self.url_base}/{recurso.lstrip('/')}"
         try:
             resp = self._sesion.get(url, params=params, timeout=self.timeout)
-            resp.raise_for_status()  # 4xx / 5xx -> excepción
+            resp.raise_for_status() 
             return resp.json()
         except requests.Timeout as e:
             raise ErrorAPI("El servidor tardó demasiado en responder") from e

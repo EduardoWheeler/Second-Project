@@ -44,7 +44,7 @@ class VentanaPrincipal(QMainWindow):
         self.resize(640, 480)
         self.servicio = GeorefService()
         self.provincias = []
-        self._hilos = []  # evita que el GC los destruya
+        self._hilos = []  
         self._crear_widgets()
         self._en_segundo_plano(
             self.servicio.provincias, self._mostrar_provincias
@@ -53,7 +53,7 @@ class VentanaPrincipal(QMainWindow):
     def _crear_widgets(self):
         self.combo = QComboBox()
         self.btn = QPushButton("Buscar")
-        self.btn.clicked.connect(self._buscar)  # señal -> slot
+        self.btn.clicked.connect(self._buscar) 
 
         barra = QHBoxLayout()
         barra.addWidget(QLabel("Provincia:"))
